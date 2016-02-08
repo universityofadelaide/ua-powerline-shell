@@ -211,25 +211,6 @@ class Color(DefaultColor):
     pass
 
 
-
-def add_username_segment(powerline):
-    import os
-    if powerline.args.shell == 'bash':
-        user_prompt = ' \\u '
-    elif powerline.args.shell == 'zsh':
-        user_prompt = ' %n '
-    else:
-        user_prompt = ' %s ' % os.getenv('USER')
-
-    if os.getenv('USER') == 'root':
-        bgcolor = Color.USERNAME_ROOT_BG
-    else:
-        bgcolor = Color.USERNAME_BG
-
-    powerline.append(user_prompt, Color.USERNAME_FG, bgcolor)
-
-
-add_username_segment(powerline)
 def add_hostname_segment(powerline):
     if powerline.args.colorize_hostname:
         from lib.color_compliment import stringToHashToColorAndOpposite
@@ -347,16 +328,6 @@ def add_cwd_segment(powerline):
 
 
 add_cwd_segment(powerline)
-import os
-
-def add_read_only_segment(powerline):
-    cwd = powerline.cwd or os.getenv('PWD')
-
-    if not os.access(cwd, os.W_OK):
-        powerline.append(' %s ' % powerline.lock, Color.READONLY_FG, Color.READONLY_BG)
-
-
-add_read_only_segment(powerline)
 import re
 import subprocess
 import os
